@@ -1,0 +1,132 @@
+---
+swagger: "2.0"
+info:
+  description: "Tour of Heroes API"
+  version: "1.0.0"
+  title: "Tour of Heroes API"
+  termsOfService: "http://swagger.io/terms/"
+host: "localhost:8080"
+basePath: "/v1"
+schemes:
+- "http"
+produces:
+- "application/json"
+paths:
+  /heroes:
+    get:
+      summary: "get Hero List"
+      description: "Returns All Heroes"
+      operationId: "getHeroList"
+      parameters:
+      - name: "name"
+        in: "query"
+        description: "ユーザ名"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Hero List"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Hero"
+          examples:
+            application/json:
+            - id: 11
+              name: "Mr. Nice"
+      x-swagger-router-controller: "Default"
+  /hero/{id}:
+    get:
+      summary: "get Hero"
+      description: "Returns Hero"
+      operationId: "getHero"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of Hero"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Hero"
+          schema:
+            $ref: "#/definitions/Hero"
+          examples:
+            application/json:
+            - id: 11
+              name: "Mr. Nice"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Hero not found"
+      x-swagger-router-controller: "Default"
+    delete:
+      summary: "Delete Hero"
+      description: "Delete Hero."
+      operationId: "deleteHero"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of Hero"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Hero not found"
+      x-swagger-router-controller: "Default"
+  /hero:
+    post:
+      summary: "Create Hero"
+      description: "Create Hero."
+      operationId: "createHero"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created Hero object"
+        required: true
+        schema:
+          $ref: "#/definitions/Hero"
+      responses:
+        400:
+          description: "Invalid Hero object"
+        default:
+          description: "successful operation"
+      x-swagger-router-controller: "Default"
+    put:
+      summary: "Update Hero"
+      description: "Update Hero."
+      operationId: "updateHero"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created Hero object"
+        required: true
+        schema:
+          $ref: "#/definitions/Hero"
+      responses:
+        400:
+          description: "Invalid Hero object"
+        404:
+          description: "Hero not found"
+        default:
+          description: "successful operation"
+      x-swagger-router-controller: "Default"
+definitions:
+  Hero:
+    type: "object"
+    required:
+    - "id"
+    - "name"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
